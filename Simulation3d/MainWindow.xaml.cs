@@ -68,7 +68,7 @@ namespace Simulation3d
             updateLabelsTimer.Tick += (sender, args) => {
                 // Adjust acceleration because acceleration cannot be the same
                 // if the state of a real life object does not change.
-                _CurcuitBoard.AdjustAcceleration();
+                //_CurcuitBoard.AdjustAcceleration();
                 
                 // Get acceleration, rotation angle and temperature. 
                 this.accel = _CurcuitBoard.GetAcceleration();

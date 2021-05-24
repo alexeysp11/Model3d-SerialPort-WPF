@@ -153,9 +153,9 @@ namespace Simulation3d
         public void SetAcceleration(float dx = 0, float dy = 0, float dz = 0)
         {
             // Adjust all accelerations. 
-            _Accel.X += dx; 
-            _Accel.Y += dy; 
-            _Accel.Z += dz;
+            _Accel.X = dx; 
+            _Accel.Y = dy; 
+            _Accel.Z = dz;
 
             // Calculate rotation using acceleration. 
             float dxAngle = (float)System.Math.Atan2(_Accel.Y,

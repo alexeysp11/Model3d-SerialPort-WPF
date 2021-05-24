@@ -306,6 +306,9 @@ namespace Simulation3d
             byte AccelerometerZ = 0b10000000 | 0b00001000; 
 
             string message = ""; 
+            float dx = 0; 
+            float dy = 0;
+            float dz = 0; 
 
             for (int i = 0; i < comByte.Length; i++)
             {
@@ -313,6 +316,7 @@ namespace Simulation3d
                 so sensor index is every 6th. */ 
                 if (i % PacketSize == 0)     // Get what sensor sent data. 
                 {
+                    
                     if (comByte[i] == TempSensor)
                     {
                         message += "Temperature: ";
@@ -323,28 +327,29 @@ namespace Simulation3d
                     }
                     else if (comByte[i] == AccelerometerX)
                     {
-                        message += "AccelX: ";
-                        float value = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
-                        message += $"{value}"; 
+                        message += " AccelX: ";
+                        dx = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
+                        message += $"{dx}"; 
                         message += $"{comByte[i+5]}"; 
                     }
                     else if (comByte[i] == AccelerometerY)
                     {
-                        message += "AccelY: ";
-                        float value = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
-                        message += $"{value}"; 
+                        message += " AccelY: ";
+                        dy = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
+                        message += $"{dy}"; 
                         message += $"{comByte[i+5]}"; 
                     }
                     else if (comByte[i] == AccelerometerZ)
                     {
-                        message += "AccelZ: ";
-                        float value = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
-                        message += $"{value}"; 
+                        message += " AccelZ: ";
+                        dz = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
+                        message += $"{dz}"; 
                         message += $"{comByte[i+5]}"; 
                     }
                 }
             }
 
+            _CurcuitBoard.SetAcceleration(dx, dy, dz);
             this.DisplayData(Brushes.Green, message);
         }
         #endregion  // DataProcessing

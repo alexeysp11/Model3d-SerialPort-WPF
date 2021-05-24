@@ -81,7 +81,7 @@
             <Label Content="TEMPERATURE (Celcius):" HorizontalAlignment="Left" Margin="10,255" VerticalAlignment="Top" Foreground="Black" Height="30"/>
             <Label Name="TemperatureLabel" Content="0" HorizontalAlignment="Left" Margin="10,270" VerticalAlignment="Top" Foreground="Black" Height="25"/>
             
-            <Label Name="InfoLabel" HorizontalAlignment="Left" Margin="150,15" VerticalAlignment="Top" Foreground="Black" Height="25" Width="350" />
+            <Label Name="InfoLabel" HorizontalAlignment="Left" Margin="150,15" VerticalAlignment="Top" Foreground="Black" Height="25" Width="550" />
             
             <Label Name="ModeLabel" Content="MODE: simulation" HorizontalAlignment="Left" Margin="150,350" VerticalAlignment="Top" Foreground="Black" Height="25" Width="300" />
 
