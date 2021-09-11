@@ -6,39 +6,39 @@ namespace Simulation3d
         public float Y { get; set; }
         public float Z { get; set; }
 
-        public void AdjustX()
+        public void AdjustX(float step)
         {
             if (X > 0) 
             {
-                X -= 1; 
+                X -= step; 
             }
             else if (X < 0)
             {
-                X += 1;
+                X += step;
             }
         }
 
-        public void AdjustY()
+        public void AdjustY(float step)
         {
             if (Y > 0) 
             {
-                Y -= 1; 
+                Y -= step; 
             }
             else if (Y < 0)
             {
-                Y += 1;
+                Y += step;
             }
         }
 
-        public void AdjustZ()
+        public void AdjustZ(float step)
         {
             if (Z > 0) 
             {
-                Z -= 1; 
+                Z -= step; 
             }
             else if (Z < 0)
             {
-                Z += 1;
+                Z += step;
             }
         }
     }

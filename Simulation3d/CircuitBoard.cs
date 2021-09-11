@@ -6,16 +6,16 @@ namespace Simulation3d
     /// </summary>
     public class CircuitBoard 
     {
-        private Angle _Angle; 
-        private Acceleration _Accel; 
+        private Angle angle; 
+        private Acceleration accel; 
 
         private float Temperature = 0.0f; 
 
         public CircuitBoard()
         {
-            _Angle.X = 0.0f; 
-            _Angle.Y = 0.0f; 
-            _Angle.Z = 0.0f; 
+            angle.X = 0.0f; 
+            angle.Y = 0.0f; 
+            angle.Z = 0.0f; 
         }
 
         public float GetTemperature()
@@ -30,33 +30,33 @@ namespace Simulation3d
 
         public Angle GetRotation()
         {
-            return _Angle; 
+            return angle; 
         }
 
         public void SetRotation(float dx = 0, float dy = 0, float dz = 0)
         {
-            _Angle.X += dx; 
-            _Angle.Y += dy; 
-            _Angle.Z += dz; 
+            angle.X += dx; 
+            angle.Y += dy; 
+            angle.Z += dz; 
         }
 
         public Acceleration GetAcceleration()
         {
-            return _Accel; 
+            return accel; 
         }
 
         public void SetAcceleration(float dx = 0, float dy = 0, float dz = 0)
         {
-            _Accel.X = dx; 
-            _Accel.Y = dy; 
-            _Accel.Z = dz;
+            accel.X = dx; 
+            accel.Y = dy; 
+            accel.Z = dz;
 
-            float dxAngle = (float)System.Math.Atan2(_Accel.Y,
-                System.Math.Sqrt(System.Math.Pow(_Accel.X, 2) + System.Math.Pow(_Accel.Z, 2))); 
-            float dyAngle = (float)System.Math.Atan2(_Accel.X,
-                System.Math.Sqrt(System.Math.Pow(_Accel.Y, 2) + System.Math.Pow(_Accel.Z, 2))); 
-            float dzAngle = (float)System.Math.Atan2(System.Math.Sqrt(System.Math.Pow(_Accel.X, 2) + System.Math.Pow(_Accel.Y, 2)),
-                _Accel.Z);
+            float dxAngle = (float)System.Math.Atan2(accel.Y,
+                System.Math.Sqrt(System.Math.Pow(accel.X, 2) + System.Math.Pow(accel.Z, 2))); 
+            float dyAngle = (float)System.Math.Atan2(accel.X,
+                System.Math.Sqrt(System.Math.Pow(accel.Y, 2) + System.Math.Pow(accel.Z, 2))); 
+            float dzAngle = (float)System.Math.Atan2(System.Math.Sqrt(System.Math.Pow(accel.X, 2) + System.Math.Pow(accel.Y, 2)),
+                accel.Z);
 
             this.SetRotation(dxAngle, dyAngle, dzAngle);
         }
