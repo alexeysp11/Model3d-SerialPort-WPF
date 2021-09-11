@@ -16,7 +16,6 @@ namespace Simulation3d
     public class CircuitBoard
     {
         ... 
-        
         /// <summary>
         /// Sets values of acceleration along each of 3 axis. 
         /// </summary>
@@ -77,10 +76,5 @@ In order to open `Simulation3d` application with Visual Studio, just open `Simul
 If you are not using Visual Studio, you can run this app using *Windows command line*. 
 So just write the following command into console: 
 ```
-simulate.cmd
-```
-
-In order to run this app without building, write: 
-```
-simulate.cmd --no-build
+run.cmd
 ```

@@ -6,9 +6,6 @@ using System.IO.Ports;
 
 namespace Simulation3d
 {
-    /// <summary>
-    /// Implements COM-port. 
-    /// </summary>
     class ComPort
     {
         #region Members
@@ -116,7 +113,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                GraphWPF.Exceptions.DisplayException(ex);
+                System.Windows.MessageBox.Show($"Exception: {ex}");
             }
         }
 
@@ -156,7 +153,7 @@ namespace Simulation3d
             catch (System.Exception ex)
             {
                 //System.Windows.MessageBox.Show("ERROR: " + ex.Message + "\n" + ex.GetType().ToString());
-                GraphWPF.Exceptions.DisplayException(ex);
+                System.Windows.MessageBox.Show($"Exception: {ex}");
                 return false;
             }
         }
@@ -169,9 +166,6 @@ namespace Simulation3d
         /// true if serial port has been closed, false if serial port has not 
         /// been closed. 
         /// </returns>
-        /// <exception cref="System.Exception">
-        /// Thrown when .
-        /// </exception>
         public bool Close()
         {
             try
@@ -184,7 +178,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                GraphWPF.Exceptions.DisplayException(ex);
+                System.Windows.MessageBox.Show($"Exception: {ex}");
                 return false;
             }
         }
@@ -216,7 +210,7 @@ namespace Simulation3d
             }
             catch (Exception ex)
             {
-                GraphWPF.Exceptions.DisplayException(ex);
+                System.Windows.MessageBox.Show($"Exception: {ex}");
             }
         }
 
@@ -246,7 +240,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                GraphWPF.Exceptions.DisplayException(ex); 
+                System.Windows.MessageBox.Show($"Exception: {ex}"); 
             }
         }
         #endregion  // DataTransmission
@@ -366,7 +360,6 @@ namespace Simulation3d
             if (_InfoLabel != null)
             {
                 _InfoLabel.Dispatcher.Invoke(() => {
-                    // Change content of the label. 
                     _InfoLabel.Content = msg; 
                     _InfoLabel.Foreground = color; 
                 });

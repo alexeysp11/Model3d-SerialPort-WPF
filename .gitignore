@@ -1,0 +1,11 @@
+.vs
+.vscode 
+*/.vs 
+*/.vscode 
+
+*/bin
+*/obj
+
+Docs/ProcessDocs 
+
+Simulation3d.Tests

@@ -191,7 +191,7 @@ namespace Simulation3d
                 }
                 catch (System.Exception ex)
                 {
-                    GraphWPF.Exceptions.DisplayException(ex); 
+                    System.Windows.MessageBox.Show($"Exception: {ex}"); 
                 }
             }
             else
@@ -210,7 +210,7 @@ namespace Simulation3d
                 }
                 catch (System.Exception ex)
                 {
-                    GraphWPF.Exceptions.DisplayException(ex); 
+                    System.Windows.MessageBox.Show($"Exception: {ex}"); 
                 }
             }
         }
