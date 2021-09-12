@@ -11,13 +11,6 @@ namespace Simulation3d
 
         private float Temperature = 0.0f; 
 
-        public CircuitBoard()
-        {
-            angle.X = 0.0f; 
-            angle.Y = 0.0f; 
-            angle.Z = 0.0f; 
-        }
-
         public float GetTemperature()
         {
             return Temperature; 

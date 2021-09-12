@@ -22,13 +22,36 @@ namespace Simulation3d.Tests
         [InlineData(400.45f, 40.45f)]
         [InlineData(770.115f, 50.115f)]
         [InlineData(970.115f, 250.115f)]
-        public void X_SetX_ReturnsBetween0And360(float input, float expected)
+        public void X_SetX_EqualsToExpected(float input, float expected)
         {
             angle.X = input; 
 
             float actual = angle.X; 
 
             Assert.Equal(expected, actual, 3); 
+        }
+
+        [Theory]
+        [InlineData(-1000.508f)]
+        [InlineData(-700.0f)]
+        [InlineData(-520.0f)]
+        [InlineData(-120.23f)]
+        [InlineData(-20.095f)]
+        [InlineData(-0.05f)]
+        [InlineData(0.0f)]
+        [InlineData(0.5f)]
+        [InlineData(10.5f)]
+        [InlineData(40.45f)]
+        [InlineData(400.45f)]
+        [InlineData(770.115f)]
+        [InlineData(970.115f)]
+        public void X_SetX_ReturnsValuesBetween0And359(float input)
+        {
+            angle.X = input; 
+
+            float actual = angle.X; 
+
+            Assert.True(actual > -360 || actual < 360); 
         }
 
         [Theory]
@@ -46,13 +69,36 @@ namespace Simulation3d.Tests
         [InlineData(400.45f, 40.45f)]
         [InlineData(770.005f, 50.005f)]
         [InlineData(900.5f, 180.5f)]
-        public void Y_SetY_ReturnsBetween0And360(float input, float expected)
+        public void Y_SetY_EqualsToExpected(float input, float expected)
         {
             angle.Y = input; 
 
             float actual = angle.Y; 
 
             Assert.Equal(expected, actual, 3); 
+        }
+
+        [Theory]
+        [InlineData(-1000.508f)]
+        [InlineData(-700.0f)]
+        [InlineData(-520.0f)]
+        [InlineData(-120.23f)]
+        [InlineData(-20.095f)]
+        [InlineData(-0.05f)]
+        [InlineData(0.0f)]
+        [InlineData(0.5f)]
+        [InlineData(10.5f)]
+        [InlineData(40.45f)]
+        [InlineData(400.45f)]
+        [InlineData(770.115f)]
+        [InlineData(970.115f)]
+        public void Y_SetY_ReturnsValuesBetween0And359(float input)
+        {
+            angle.Y = input; 
+
+            float actual = angle.Y; 
+
+            Assert.True(actual > -360 || actual < 360); 
         }
 
         [Theory]
@@ -70,14 +116,36 @@ namespace Simulation3d.Tests
         [InlineData(400.45f, 40.45f)]
         [InlineData(770.015f, 50.015f)]
         [InlineData(1080.0f, 0.0f)]
-        public void Z_SetZ_ReturnsBetween0And360(float input, float expected)
+        public void Z_SetZ_EqualsToExpected(float input, float expected)
         {
-
             angle.Z = input; 
 
             float actual = angle.Z; 
 
             Assert.Equal(expected, actual, 3); 
+        }
+        
+        [Theory]
+        [InlineData(-1000.508f)]
+        [InlineData(-700.0f)]
+        [InlineData(-520.0f)]
+        [InlineData(-120.23f)]
+        [InlineData(-20.095f)]
+        [InlineData(-0.05f)]
+        [InlineData(0.0f)]
+        [InlineData(0.5f)]
+        [InlineData(10.5f)]
+        [InlineData(40.45f)]
+        [InlineData(400.45f)]
+        [InlineData(770.115f)]
+        [InlineData(970.115f)]
+        public void Z_SetZ_ReturnsValuesBetween0And359(float input)
+        {
+            angle.Z = input; 
+
+            float actual = angle.Z; 
+
+            Assert.True(actual > -360 || actual < 360); 
         }
     }
 }
