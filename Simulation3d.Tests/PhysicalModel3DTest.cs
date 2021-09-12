@@ -4,14 +4,14 @@ using Simulation3d;
 
 namespace Simulation3d.Tests
 {
-    public class CircuitBoardTest
+    public class PhysicalModel3DTest
     {
-        CircuitBoard circuitBoard = new CircuitBoard(); 
+        PhysicalModel3D PhysicalModel3D = new PhysicalModel3D(); 
 
         [Fact]
         public void CreateObject_UseDefaultConstructor_ObjectNotNull()
         {
-            Assert.NotNull(circuitBoard); 
+            Assert.NotNull(PhysicalModel3D); 
         }
 
         [Fact]
@@ -19,9 +19,9 @@ namespace Simulation3d.Tests
         {
             float expected = 0.0f; 
 
-            float actualTemp = circuitBoard.GetTemperature(); 
-            Angle angle = circuitBoard.GetRotation(); 
-            Acceleration accel = circuitBoard.GetAcceleration(); 
+            float actualTemp = PhysicalModel3D.GetTemperature(); 
+            Angle angle = PhysicalModel3D.GetRotation(); 
+            Acceleration accel = PhysicalModel3D.GetAcceleration(); 
 
             Assert.Equal(expected, actualTemp, 3); 
             Assert.Equal(expected, angle.X, 3); 
@@ -46,8 +46,8 @@ namespace Simulation3d.Tests
         [InlineData(765.430f)]
         public void SetTemperature_SetValue_ReturnsSameValue(float input)
         {
-            circuitBoard.SetTemperature(input); 
-            float actualTemp = circuitBoard.GetTemperature(); 
+            PhysicalModel3D.SetTemperature(input); 
+            float actualTemp = PhysicalModel3D.GetTemperature(); 
 
             Assert.Equal(input, actualTemp, 3); 
         }
@@ -57,8 +57,8 @@ namespace Simulation3d.Tests
         {
             float expected = 0; 
 
-            circuitBoard.SetRotation(); 
-            Angle angle = circuitBoard.GetRotation(); 
+            PhysicalModel3D.SetRotation(); 
+            Angle angle = PhysicalModel3D.GetRotation(); 
 
             Assert.Equal(expected, angle.X, 3); 
             Assert.Equal(expected, angle.Y, 3); 
@@ -81,8 +81,8 @@ namespace Simulation3d.Tests
         [InlineData(50.0f, 970.115f, 250.115f)]
         public void SetRotation_PositiveXAnyYZ_ReturnsValuesBetween0And359(float dx, float dy, float dz)
         {
-            circuitBoard.SetRotation(dx, dy, dz); 
-            Angle angle = circuitBoard.GetRotation(); 
+            PhysicalModel3D.SetRotation(dx, dy, dz); 
+            Angle angle = PhysicalModel3D.GetRotation(); 
 
             Assert.True(angle.X > -360 || angle.X < 360); 
             Assert.True(angle.Y > -360 || angle.Y < 360); 
@@ -105,8 +105,8 @@ namespace Simulation3d.Tests
         [InlineData(0.0f, 970.115f, 250.115f)]
         public void SetRotation_ZeroXAnyYZ_ReturnsValuesBetween0And359(float dx, float dy, float dz)
         {
-            circuitBoard.SetRotation(dx, dy, dz); 
-            Angle angle = circuitBoard.GetRotation(); 
+            PhysicalModel3D.SetRotation(dx, dy, dz); 
+            Angle angle = PhysicalModel3D.GetRotation(); 
 
             Assert.True(angle.X > -360 || angle.X < 360); 
             Assert.True(angle.Y > -360 || angle.Y < 360); 
@@ -129,8 +129,8 @@ namespace Simulation3d.Tests
         [InlineData(-120.0f, 970.115f, 250.115f)]
         public void SetRotation_NegativeXAnyYZ_ReturnsValuesBetween0And359(float dx, float dy, float dz)
         {
-            circuitBoard.SetRotation(dx, dy, dz); 
-            Angle angle = circuitBoard.GetRotation(); 
+            PhysicalModel3D.SetRotation(dx, dy, dz); 
+            Angle angle = PhysicalModel3D.GetRotation(); 
 
             Assert.True(angle.X > -360 || angle.X < 360); 
             Assert.True(angle.Y > -360 || angle.Y < 360); 
@@ -142,8 +142,8 @@ namespace Simulation3d.Tests
         {
             float expected = 0; 
 
-            circuitBoard.SetAcceleration(); 
-            Acceleration accel = circuitBoard.GetAcceleration(); 
+            PhysicalModel3D.SetAcceleration(); 
+            Acceleration accel = PhysicalModel3D.GetAcceleration(); 
 
             Assert.Equal(expected, accel.X, 3); 
             Assert.Equal(expected, accel.Y, 3); 
@@ -166,9 +166,9 @@ namespace Simulation3d.Tests
         [InlineData(10.0f, 970.115f, 250.115f)]
         public void SetAcceleration_PositiveXAnyYZ_ReturnsSameValues(float dx, float dy, float dz)
         {
-            circuitBoard.SetAcceleration(dx, dy, dz); 
+            PhysicalModel3D.SetAcceleration(dx, dy, dz); 
 
-            Acceleration accel = circuitBoard.GetAcceleration();
+            Acceleration accel = PhysicalModel3D.GetAcceleration();
 
             Assert.Equal(dx, accel.X, 3);
             Assert.Equal(dy, accel.Y, 3);
@@ -191,9 +191,9 @@ namespace Simulation3d.Tests
         [InlineData(0.0f, 970.115f, 250.115f)]
         public void SetAcceleration_ZeroXAnyYZ_ReturnsSameValues(float dx, float dy, float dz)
         {
-            circuitBoard.SetAcceleration(dx, dy, dz); 
+            PhysicalModel3D.SetAcceleration(dx, dy, dz); 
 
-            Acceleration accel = circuitBoard.GetAcceleration();
+            Acceleration accel = PhysicalModel3D.GetAcceleration();
 
             Assert.Equal(dx, accel.X, 3);
             Assert.Equal(dy, accel.Y, 3);
@@ -216,9 +216,9 @@ namespace Simulation3d.Tests
         [InlineData(-5.0f, 970.115f, 250.115f)]
         public void SetAcceleration_NegativeXAnyYZ_ReturnsSameValues(float dx, float dy, float dz)
         {
-            circuitBoard.SetAcceleration(dx, dy, dz); 
+            PhysicalModel3D.SetAcceleration(dx, dy, dz); 
 
-            Acceleration accel = circuitBoard.GetAcceleration();
+            Acceleration accel = PhysicalModel3D.GetAcceleration();
 
             Assert.Equal(dx, accel.X, 3);
             Assert.Equal(dy, accel.Y, 3);

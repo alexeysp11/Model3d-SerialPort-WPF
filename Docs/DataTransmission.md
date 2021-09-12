@@ -32,7 +32,7 @@ So in the `ComPort.Config()` method you can configure COM port as follows:
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}");
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception");
             }
         }
 ```
@@ -57,7 +57,7 @@ In this method `comBuffer` array is created for storing received data (this arra
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}"); 
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception"); 
             }
         }
 ```
@@ -83,7 +83,7 @@ Then the next 4 bytes are converted into float number, and for **temperature sen
                     if (comByte[i] == TempSensor)
                     {
                         float value = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
-                        _CurcuitBoard.SetTemperature(value);
+                        PhysicalModel.SetTemperature(value);
                     }
                     else if (comByte[i] == AccelerometerX)
                     {

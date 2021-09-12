@@ -13,7 +13,7 @@ Getting relative acceleration of an object, you can calculate its rotation as fo
 ```C#
 namespace Simulation3d
 {
-    public class CircuitBoard
+    public class PhysicalModel3D
     {
         ... 
         /// <summary>

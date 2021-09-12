@@ -8,74 +8,33 @@ namespace Simulation3d
 {
     class ComPort
     {
-        #region Members
-        /// <summary>
-        /// An instance of `SerialPort` class. 
-        /// </summary>
-        protected SerialPort comPort = null;    
-        /// <summary>
-        /// An instance of `Label` to display message. 
-        /// </summary>
-        protected Label _InfoLabel = null; 
-        /// <summary>
-        /// Represents the System.Object type, which is the root type in the C# class hierarchy. 
-        /// Used when there's no way to identify the object type at compile time. 
-        /// </summary>
-        private object Obj;
-        /// <summary>
-        /// An instance of CircuitBoard that helps to change its state directly 
-        /// from this class. 
-        /// </summary>
-        private CircuitBoard _CurcuitBoard = null; 
-        #endregion  // Members
+        private PhysicalModel3D PhysicalModel = null; 
+        protected SerialPort comPort = new SerialPort();  
+        protected Label InfoLabel = null; 
+        private object Obj = new object();
 
-        #region Properties
-        /// <summary>
-        /// Public static field of string elements that represent COM-port. 
-        /// </summary>
         public static string[] Ports { get { return SerialPort.GetPortNames(); } }
-        /// <summary>
-        /// Stores boolean value that represents if COM-port is connected or not. 
-        /// </summary>
         public bool IsConnected { get; private set; }
-        /// <summary>
-        /// Size of a packet for getting one floating point value via 
-        /// data transmission. 
-        /// </summary>
         private static int PacketSize = 6; 
-        #endregion  // Properties
 
         #region Constructors
         /// <summary>
         /// Constructor of class `ComPort` that creates an object of 
         /// `SerialPort` class. 
         /// </summary>
-        /// <param name="InfoLabel">
+        /// <param name="infoLabel">
         /// Notification label where to display messages.
         /// </param>
-        /// <param name="board">
-        /// Instance of CircuitBoard (passed by reference).
+        /// <param name="physicalModel">
+        /// Instance of PhysicalModel3D (passed by reference).
         /// </param>
-        public ComPort(Label InfoLabel, ref CircuitBoard board)
+        public ComPort(Label infoLabel, ref PhysicalModel3D physicalModel)
         {
-            // Assign `comPort` as an object of `SerialPort` class. 
-            comPort = new SerialPort();
-            _CurcuitBoard = board;
+            PhysicalModel = physicalModel;
+            InfoLabel = infoLabel;
 
-            // Assign `Label` element. 
-            _InfoLabel = InfoLabel;
-
-            /* Event `System.IO.Ports.SerialPort.DataReceived` indicates
-            that data has been received through a port represented 
-            by the SerialPort object. 
-            Delegate `SerialDataReceivedEventHandler` represents the method 
-            that will handle the DataReceived event of a SerialPort object. */
             comPort.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
             
-            /* Assign `Obj` as object of class `System.Object` for using it in `lock`
-            statements. */
-            Obj = new object();
-
             IsConnected = false; 
         }
         #endregion  // Constructors
@@ -95,9 +54,6 @@ namespace Simulation3d
         public void Config(string portName, string baudRate="19200", 
             string parity="None", string stopBits="1")
         {
-            /* Get a value indicating the open or closed status of the 
-            SerialPort object. 
-            Close serial port if it is open at the initial time. */
             if (comPort.IsOpen == true) 
             {
                 this.Close(); 
@@ -113,7 +69,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}");
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception");
             }
         }
 
@@ -139,11 +95,9 @@ namespace Simulation3d
             }
             catch (System.UnauthorizedAccessException)
             {
-                // Close the serial port. 
                 comPort.Close();
                 this.DisplayData(Brushes.Black, "Port " + comPort.PortName + " is closed at " + DateTime.Now);
                 
-                // Try to open the serial port again. 
                 comPort.Open();
                 this.DisplayData(Brushes.Black, "Port " + comPort.PortName + " is opened at " + DateTime.Now);
                 IsConnected = true; 
@@ -152,8 +106,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                //System.Windows.MessageBox.Show("ERROR: " + ex.Message + "\n" + ex.GetType().ToString());
-                System.Windows.MessageBox.Show($"Exception: {ex}");
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception");
                 return false;
             }
         }
@@ -173,12 +126,11 @@ namespace Simulation3d
                 comPort.Close();
                 this.DisplayData(Brushes.Black, "Port " + comPort.PortName + " is closed at " + DateTime.Now);
                 IsConnected = false;
-
                 return true;
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}");
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception");
                 return false;
             }
         }
@@ -189,9 +141,6 @@ namespace Simulation3d
         /// Sends a message via COM-port. 
         /// </summary>
         /// <param name="msg">Message to be sent via serial port.</param>
-        /// <exception cref="System.Exception">
-        /// Thrown when .
-        /// </exception>
         public void Send(string msg)
         {
             if (comPort.IsOpen == false)
@@ -210,7 +159,7 @@ namespace Simulation3d
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}");
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception");
             }
         }
 
@@ -240,7 +189,7 @@ namespace Simulation3d
             }
             catch (System.Exception ex)
             {
-                System.Windows.MessageBox.Show($"Exception: {ex}"); 
+                System.Windows.MessageBox.Show($"Exception: {ex}", "Exception"); 
             }
         }
         #endregion  // DataTransmission
@@ -315,7 +264,7 @@ namespace Simulation3d
                     {
                         message += "Temperature: ";
                         float value = System.BitConverter.ToSingle(comByte, i+1);     // Get 4 bytes. 
-                        _CurcuitBoard.SetTemperature(value);
+                        PhysicalModel.SetTemperature(value);
                         message += $"{value}"; 
                         message += $"{comByte[i+5]}"; 
                     }
@@ -343,7 +292,7 @@ namespace Simulation3d
                 }
             }
 
-            _CurcuitBoard.SetAcceleration(dx, dy, dz);
+            PhysicalModel.SetAcceleration(dx, dy, dz);
             this.DisplayData(Brushes.Green, message);
         }
         #endregion  // DataProcessing
@@ -357,11 +306,11 @@ namespace Simulation3d
         /// <param name="msg">Message to be displayed.</param>
         protected void DisplayData(Brush color, string msg)
         {
-            if (_InfoLabel != null)
+            if (InfoLabel != null)
             {
-                _InfoLabel.Dispatcher.Invoke(() => {
-                    _InfoLabel.Content = msg; 
-                    _InfoLabel.Foreground = color; 
+                InfoLabel.Dispatcher.Invoke(() => {
+                    InfoLabel.Content = msg; 
+                    InfoLabel.Foreground = color; 
                 });
             }
         }

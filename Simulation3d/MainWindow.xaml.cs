@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading; 
 
 namespace Simulation3d
 {
@@ -11,41 +12,25 @@ namespace Simulation3d
     public partial class MainWindow : Window
     {
         #region Members
-        /// <summary>
-        /// Instance that stores all values measured by MCU. 
-        /// </summary>
-        private CircuitBoard _CurcuitBoard = null; 
-        /// <summary>
-        /// Instance that implements serial port. 
-        /// </summary>
-        private ComPort _ComPort = null; 
+        private PhysicalModel3D PhysicalModel = new PhysicalModel3D(); 
+        private ComPort ComPort = null; 
+
         /// <summary>
         /// This timer is used for updating labels for displaying rotation
         /// angle, acceleration and temperature in the current moment. 
         /// </summary>
-        private System.Windows.Threading.DispatcherTimer updateLabelsTimer = null; 
+        private DispatcherTimer updateLabelsTimer = null; 
         /// <summary>
         /// This timer is used to timely clear InfoLabel (notification label). 
         /// </summary>
-        private System.Windows.Threading.DispatcherTimer clearInfoLabelTimer = null; 
-        /// <summary>
-        /// Structure for storing values of rotation angle (X, Y and Z). 
-        /// </summary>
+        private DispatcherTimer clearInfoLabelTimer = null; 
+        
         private Angle angle;
-        /// <summary>
-        /// Structure for storing values of relative accelerations (X, Y and Z). 
-        /// </summary>
         private Acceleration accel;
         #endregion  // Members
 
         #region Properties
-        /// <summary>
-        /// Measured temperature. 
-        /// </summary>
         private float temperature;
-        /// <summary>
-        /// Allows to handle if it's simulation mode or measuring mode. 
-        /// </summary>
         private bool IsSimalation = true; 
         /// <summary>
         /// Variable that stores name of connected COM-port for preventing 
@@ -59,8 +44,7 @@ namespace Simulation3d
         {
             InitializeComponent();
 
-            _CurcuitBoard = new CircuitBoard();
-            _ComPort = new ComPort(InfoLabel, ref _CurcuitBoard);
+            this.ComPort = new ComPort(InfoLabel, ref PhysicalModel);
 
             // updateLabelsTimer starts when window is loaded and updates 
             // every 100 ms. 
@@ -68,12 +52,12 @@ namespace Simulation3d
             updateLabelsTimer.Tick += (sender, args) => {
                 // Adjust acceleration because acceleration cannot be the same
                 // if the state of a real life object does not change.
-                //_CurcuitBoard.AdjustAcceleration();
+                //PhysicalModel.AdjustAcceleration();
                 
                 // Get acceleration, rotation angle and temperature. 
-                this.accel = _CurcuitBoard.GetAcceleration();
-                this.angle = _CurcuitBoard.GetRotation();
-                this.temperature = _CurcuitBoard.GetTemperature(); 
+                this.accel = PhysicalModel.GetAcceleration();
+                this.angle = PhysicalModel.GetRotation();
+                this.temperature = PhysicalModel.GetTemperature(); 
 
                 // Rotate 3D model. 
                 Model3dRotateAngleX.Angle = this.angle.X;
@@ -125,7 +109,7 @@ namespace Simulation3d
             }
 
             // Refresh only when COM-port is not connected. 
-            if (!_ComPort.IsConnected)
+            if (!this.ComPort.IsConnected)
             {
                 // Not to copy one COM port multiple times. 
                 ComPortsComboBox.Items.Clear();
@@ -181,36 +165,36 @@ namespace Simulation3d
 
             clearInfoLabelTimer.Start();    // Start timer for updating labels. 
 
-            if (_ComPort.IsConnected)
+            if (this.ComPort.IsConnected)
             {
                 try
                 {
-                    _ComPort.Close();
+                    this.ComPort.Close();
                     this.ComPortText = null; 
                     ConnectDisconnectBtn.Content = "Connect"; 
                 }
                 catch (System.Exception ex)
                 {
-                    System.Windows.MessageBox.Show($"Exception: {ex}"); 
+                    System.Windows.MessageBox.Show($"Exception: {ex}", "Exception"); 
                 }
             }
             else
             {
                 try
                 {
-                    _ComPort.Config(ComPortsComboBox.Text);
-                    _ComPort.Open();
+                    this.ComPort.Config(ComPortsComboBox.Text);
+                    this.ComPort.Open();
                     this.ComPortText = ComPortsComboBox.Text; 
 
                     // Change label only if COM-port is connected. 
-                    if (_ComPort.IsConnected)
+                    if (this.ComPort.IsConnected)
                     {
                         ConnectDisconnectBtn.Content = "Close"; 
                     }
                 }
                 catch (System.Exception ex)
                 {
-                    System.Windows.MessageBox.Show($"Exception: {ex}"); 
+                    System.Windows.MessageBox.Show($"Exception: {ex}", "Exception"); 
                 }
             }
         }
@@ -224,7 +208,7 @@ namespace Simulation3d
         {
             if (e.Key == Key.M)         // Change mode (from simulation to measuring and vica versa). 
             {
-                if (_ComPort.IsConnected)
+                if (this.ComPort.IsConnected)
                 {
                     System.Console.WriteLine("Unable to change mode while COM-port is connected.");
                     return;
@@ -247,69 +231,69 @@ namespace Simulation3d
 
             if (e.Key == Key.E)         // Rotation around X axis.
             {
-                _CurcuitBoard.SetRotation(5, 0, 0); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(5, 0, 0); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleX.Angle = this.angle.X; 
             }
             else if (e.Key == Key.Q)    // Rotation around X axis.
             {
-                _CurcuitBoard.SetRotation(-5, 0, 0); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(-5, 0, 0); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleX.Angle = this.angle.X; 
             }
             else if (e.Key == Key.R)    // Rotation around Y axis.
             {
-                _CurcuitBoard.SetRotation(0, 5, 0); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(0, 5, 0); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleY.Angle = this.angle.Y; 
             }
             else if (e.Key == Key.F)    // Rotation around Y axis.
             {
-                _CurcuitBoard.SetRotation(0, -5, 0); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(0, -5, 0); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleY.Angle = this.angle.Y; 
             }
             else if (e.Key == Key.X)    // Rotation around Z axis.
             {
-                _CurcuitBoard.SetRotation(0, 0, 5); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(0, 0, 5); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleZ.Angle = this.angle.Z; 
             }
             else if (e.Key == Key.Z)    // Rotation around Z axis.
             {
-                _CurcuitBoard.SetRotation(0, 0, -5); 
-                this.angle = _CurcuitBoard.GetRotation(); 
+                PhysicalModel.SetRotation(0, 0, -5); 
+                this.angle = PhysicalModel.GetRotation(); 
                 Model3dRotateAngleZ.Angle = this.angle.Z; 
             }
             else if (e.Key == Key.A)    // Left (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(-5, 0, 0);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(-5, 0, 0);
+                this.accel = PhysicalModel.GetAcceleration();
             }
             else if (e.Key == Key.D)    // Right (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(5, 0, 0);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(5, 0, 0);
+                this.accel = PhysicalModel.GetAcceleration();
             }
             else if (e.Key == Key.W)    // Up (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(0, 5, 0);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(0, 5, 0);
+                this.accel = PhysicalModel.GetAcceleration();
             }
             else if (e.Key == Key.S)    // Down (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(0, -5, 0);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(0, -5, 0);
+                this.accel = PhysicalModel.GetAcceleration();
             }
             else if (e.Key == Key.C)    // Up (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(0, 0, 5);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(0, 0, 5);
+                this.accel = PhysicalModel.GetAcceleration();
             }
             else if (e.Key == Key.V)    // Down (acceleration). 
             {
-                _CurcuitBoard.SetAcceleration(0, 0, -5);
-                this.accel = _CurcuitBoard.GetAcceleration();
+                PhysicalModel.SetAcceleration(0, 0, -5);
+                this.accel = PhysicalModel.GetAcceleration();
             }
 
             myCanvas.Focus();

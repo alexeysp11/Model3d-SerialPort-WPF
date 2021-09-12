@@ -1,10 +1,6 @@
 namespace Simulation3d
 {
-    /// <summary>
-    /// Provides functionality for rotating 3D model and setting its 
-    /// acceleration along each of 3 axis. 
-    /// </summary>
-    public class CircuitBoard 
+    public class PhysicalModel3D 
     {
         private Angle angle; 
         private Acceleration accel; 
