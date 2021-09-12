@@ -9,14 +9,7 @@ namespace Simulation3d
             set
             {
                 x = value; 
-                if (x >= 360)
-                {
-                    x -= 360; 
-                }
-                else if (x <= -360)
-                {
-                    x += 360; 
-                }
+                AdjustAngle(ref x); 
             }
         }
 
@@ -27,14 +20,7 @@ namespace Simulation3d
             set
             {
                 y = value; 
-                if (y >= 360)
-                {
-                    y -= 360; 
-                }
-                else if (y <= -360)
-                {
-                    y += 360; 
-                }
+                AdjustAngle(ref y); 
             }
         }
         
@@ -45,13 +31,21 @@ namespace Simulation3d
             set 
             {
                 z = value; 
-                if (z >= 360)
+                AdjustAngle(ref z); 
+            }
+        }
+
+        private void AdjustAngle(ref float angle)
+        {
+            while (angle <= -360 || angle >= 360)
+            {
+                if (angle >= 360)
                 {
-                    z -= 360; 
+                    angle -= 360; 
                 }
-                else if (z <= -360)
+                else if (angle <= -360)
                 {
-                    z += 360; 
+                    angle += 360; 
                 }
             }
         }
