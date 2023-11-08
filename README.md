@@ -1,6 +1,10 @@
 # Model3d-SerialPort-WPF
 
-`Model3d-SerialPort-WPF` provides visual representation of the received data (temperature and relative acceleration from 3 axis accelerometer) from microcontroller. 
+`Model3d-SerialPort-WPF`  is the project that involves creating a WPF application in C# that receives temperature and relative acceleration data from a microcontroller via serial port, displays the data in a 3D model representation, and includes functionality to prevent the application from hanging due to constant data stream.
+
+## Overall description
+
+This project provides visual representation of the received data (temperature and relative acceleration from 3 axis accelerometer) from microcontroller. 
 
 This app is written in `C#` using **WPF**. 
 
@@ -39,6 +43,26 @@ namespace Simulation3d
     }
 }
 ```
+
+### Goal
+
+The goal of the project is to create a system that can receive data from a microcontroller via serial port and display temperature and relative acceleration in a user-friendly interface.
+
+### Scope
+
+The scope of the project includes developing a WPF application in C# that can receive and display data from a microcontroller, setting a delay for data transmission to prevent the application from hanging, and configuring the COM port settings within the code.
+
+### Who can use this project
+
+This project can be used by engineers, researchers, or hobbyists who are interested in visualizing temperature and relative acceleration data from a microcontroller in a 3D model representation.
+
+### Similar projects
+
+Similar projects may include IoT applications or sensor data visualization systems that involve receiving and displaying data from a microcontroller. Open-source examples may be available on platforms like GitHub. There may also be similar projects written in C# for visualizing sensor data from microcontrollers.
+
+### Possible limitations
+
+Possible limitations of this project could include issues with the stability of the application when receiving a constant stream of data, potential challenges in accurately representing 3D model visualization based on the received sensor data, and limitations in the accuracy and precision of the sensor data received from the microcontroller.
 
 ## How to use 
 
